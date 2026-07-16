@@ -1,0 +1,143 @@
+<?php
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/includes/helpers.php';
+
+$announcements = $conn->query('SELECT * FROM announcements ORDER BY sort_order ASC, id DESC');
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Announcements - College of Hospitality Management</title>
+  </head>
+  <body class="announcement-page">
+    <header>
+      <div class="header">
+        <a href="Home.html"
+          ><img class="Hm-logo" src="Image/HM-logo-removebg.png" alt="HM logo"
+        /></a>
+        <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <ul class="header-nav">
+          <li><a href="Home.html">Home</a></li>
+          <li><a href="About.html">About</a></li>
+          <li><a href="Home.html#campuses">Campuses</a></li>
+          <li><a href="Home.html#contact">Contact</a></li>
+          <li class="dropdown">
+            <a href="#more" class="dropdown-toggle">More ▾</a>
+            <ul class="dropdown-menu">
+              <li><a href="Home.html#enrollment">Enrollment Procedures</a></li>
+              <li><a href="Annoucement.php" class="active">Announcements</a></li>
+              <li><a href="Events.php">Events</a></li>
+              <li><a href="YoungLeaders.html">Young Leaders</a></li>
+              <li><a href="Admin.html">AdminLogin</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="young-leaders-hero">
+        <div class="young-leaders-logos">
+          <div class="yl-logo yl-logo-hm">
+            <img src="Image/HM-logo.png" alt="Hospitality Management" />
+          </div>
+          <div class="yl-logo yl-logo-sjh">
+            <img src="Image/sjh.jpg" alt="Society of Junior Hoteliers" />
+          </div>
+          <div class="yl-logo yl-logo-uc">
+            <img src="Image/UCLOGO.png" alt="University of Cebu" />
+          </div>
+        </div>
+        <h1 class="young-leaders-title">College of Hospitality Management</h1>
+        <h2 class="young-leaders-subtitle">University of Cebu Main Campus</h2>
+        <h3 class="young-leaders-subtitle">Anncouncement</h3>
+      </div>
+    </header>
+
+    <main class="announcement-content">
+      <div class="announcement-grid">
+        <?php if ($announcements->num_rows === 0): ?>
+          <p class="announcement-empty">No announcements posted yet. Please check back soon.</p>
+        <?php endif; ?>
+
+        <?php while ($row = $announcements->fetch_assoc()): ?>
+          <?php if (!empty($row['image_path'])): ?>
+            <div class="announcement-card announcement-card-image">
+              <img src="<?= h($row['image_path']) ?>" alt="<?= h($row['title']) ?>" />
+            </div>
+          <?php endif; ?>
+          <div class="announcement-card announcement-card-text">
+            <h2><?= h($row['title']) ?></h2>
+            <?= $row['body'] /* stored as sanitized HTML entered by the admin */ ?>
+          </div>
+        <?php endwhile; ?>
+      </div>
+    </main>
+
+    <footer class="footer-section" id="contact">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>College of Hospitality & Tourism Management</h3>
+          <p>
+            Preparing the next generation of hospitality and tourism professionals
+            through excellence in education and industry partnerships.
+          </p>
+        </div>
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="Home.html#campuses">Campuses</a></li>
+            <li><a href="Home.html#partners">Partners</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>Contact Us</h4>
+          <p>Email: info@uc.edu.ph</p>
+          <p>Phone: (032) 255-1777</p>
+          <p>Address: Sanciangko St., Cebu, Cebu City</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 University of Cebu College of Hospitality & Tourism Management. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var toggle = document.querySelector(".nav-toggle");
+        var nav = document.querySelector(".header-nav");
+        if (toggle && nav) {
+          toggle.addEventListener("click", function () {
+            document.body.classList.toggle("nav-open");
+            toggle.setAttribute("aria-expanded", document.body.classList.contains("nav-open"));
+          });
+          nav.querySelectorAll("a").forEach(function (a) {
+            a.addEventListener("click", function () { document.body.classList.remove("nav-open"); if (toggle) toggle.setAttribute("aria-expanded", "false"); });
+          });
+          document.querySelectorAll(".dropdown-toggle").forEach(function (btn) {
+            btn.addEventListener("click", function (e) { if (window.innerWidth <= 900) { e.preventDefault(); btn.closest(".dropdown").classList.toggle("open"); } });
+          });
+        }
+      })();
+    </script>
+    <script type="module">
+      import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js";
+      Chatbot.init({
+        chatflowid: "c51a8a2e-9973-4c74-b258-0ca4db210f0d",
+        apiHost: "https://cloud.flowiseai.com",
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+# Defense-in-depth: even though uploads are validated, never allow scripts
+# to execute if they somehow end up in this folder.
+<FilesMatch "\.(php|phtml|php3|php4|php5|pl|py|cgi|sh)$">
+  Require all denied
+</FilesMatch>
+Options -Indexes
