@@ -5,7 +5,7 @@ define('DB_HOST', 'gateway01.us-west-2.prod.aws.tidbcloud.com');
 define('DB_NAME', 'chtm_admin');
 define('DB_PORT', 4000);
 define('DB_USER', '23KRec1ZH9AB1Qp.root');
-define('DB_PASS', 'YOUR_TIDB_PASSWORD'); // replace with your password
+define('DB_PASS', 'sI9x6f5TFJoCPRqR'); // replace with your password
 
 
 // Uploaded images paths
